@@ -1,0 +1,32 @@
+body {
+  background-color: #f1f3f5;
+}
+
+.table-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.list-header {
+  font-weight: 700;
+  color: #495057;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.75rem;
+}
+
+.btn-agregar {
+  background-color: #198754;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.btn-agregar:hover {
+  background-color: #157347;
+}
+
+.btn-action {
+  font-size: 0.9rem;
+}
