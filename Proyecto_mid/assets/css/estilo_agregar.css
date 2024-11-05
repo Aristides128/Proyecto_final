@@ -1,79 +1,125 @@
-.edit-container {
+/* Estilos generales para el formulario */
+form {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
+
+/* Estilo para las etiquetas (labels) */
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+  color: #333;
+}
+
+/* Estilo para los inputs de texto */
+input[type="text"], 
+input[type="date"], 
+textarea, 
+select {
   width: 100%;
-  max-width: 1200px;
-  border-radius: 12px;
-  padding: 40px;
-  animation: slideIn 0.7s ease;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 16px;
+  color: #495057;
+  box-shadow: none;
+  transition: border-color 0.3s ease-in-out;
 }
 
-.home-section {
-  position: relative;
-  background:  #ced8e0;
-  height: auto;
-  left: 260px;
-  width: calc(100% - 260px);
-  transition: all 0.5s ease;
+/* Estilo para el select */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: #fff url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23444444' d='M2 0L0 2h4zM0 3l2 2 2-2z'/%3E%3C/svg%3E") no-repeat right 10px center;
+  background-size: 10px;
 }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+select:focus,
+input:focus,
+textarea:focus {
+  border-color: #80bdff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
 }
 
-.edit-header {
-  font-weight: 700;
-  color: #343a40;
-  margin-bottom: 20px;
-  text-align: center;
+/* Estilo para las filas del formulario */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
-.form-label {
-  font-weight: 600;
-  color: #343a40;
+/* Estilo para las columnas */
+.col-2 {
+  flex: 0 0 16.6667%;
+  max-width: 16.6667%;
 }
 
-.form-control,
-.form-select {
+.col-10 {
+  flex: 0 0 83.3333%;
+  max-width: 83.3333%;
+}
+
+/* Ajuste de estilo para la tarjeta */
+.card {
   border-radius: 8px;
-  border-color: #d9e4f5;
-  transition: box-shadow 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.form-control:focus,
-.form-select:focus {
-  box-shadow: 0 0 8px rgba(90, 103, 216, 0.3);
+.card-header {
+  background-color: #f8f9fa;
+  font-size: 18px;
+  font-weight: bold;
 }
 
-.btn-primary {
-  color: #343a40;
-  border: none;
+.card-body {
+  padding: 20px;
+}
+
+/* Estilo para los botones */
+.btn {
   padding: 10px 20px;
-  border-radius: 50px;
-  transition: background-color 0.3s;
+  font-size: 16px;
+  border-radius: 4px;
 }
 
-.btn-primary:hover {
-  background-color: green;
+.btn-outline-success {
+  color: #28a745;
+  border-color: #28a745;
 }
 
-.btn-secondary {
-  color: #343a40;
-  background-color: #e9ecef;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 50px;
+.btn-outline-success:hover {
+  background-color: #28a745;
+  color: #fff;
 }
 
-#preview {
-  max-width: 100%;
-  max-height: 200px;
-  margin-top: 15px;
-  border-radius: 8px;
+.btn-outline-danger {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.titulo-bienvenida {
+  font-family: 'Georgia', serif; /* Tipografía serif para un toque formal */
+  font-size: 2.4em; /* Tamaño de texto grande y elegante */
+  font-weight: 500; /* Peso moderado para que se vea limpio y formal */
+  color: #2C3E50; /* Azul marino oscuro, profesional y sobrio */
+  text-align: center; /* Centra el texto en la pantalla */
+  margin-top: 0px;
+  margin-bottom: 10px;
+  letter-spacing: 1px; /* Espacio entre letras para mayor elegancia */
+  text-transform: uppercase; /* Convierte el texto a mayúsculas para un aspecto más serio */
+  border-bottom: 2px solid #a7bdcc; /* Línea inferior sutil */
+  padding-bottom: 10px; /* Espacio entre texto y línea */
+  max-width: 60%; /* Limita el ancho para un mejor aspecto en pantallas grandes */
+  margin-left: 34%; /* Centra horizontalmente el texto en el contenedor */
+  margin-right: auto;
 }

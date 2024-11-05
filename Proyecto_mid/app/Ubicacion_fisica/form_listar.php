@@ -22,7 +22,7 @@ $paginador->crear_paginador();
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Módulo de Listado de Ubicaciones fisicas</title>
+  <title>Ferretería</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -31,7 +31,7 @@ $paginador->crear_paginador();
 
 <body>
   <div class="container mt-5">
-    <h2 class="list-header">Módulo de Listado de Presentaciones</h2>
+    <h2 class="list-header">Listado de Ubicaciones</h2>
 
     <!-- Barra de búsqueda -->
     <form action="" method="get" autocomplete="off">
@@ -40,14 +40,14 @@ $paginador->crear_paginador();
           aria-label="Buscar Ubicacion" aria-describedby="button-buscar" value="<?php echo @$_GET['buscar'] ?>">
         <button class="btn btn-primary" type="submit" id="button-buscar"><i class="fas fa-search"></i>
           Buscar</button>
-        <button class="btn btn-info" style="color: white;" type="button" id="button-buscar"><i
-            class="bi bi-x-circle"></i> Limpiar busqueda</button>
+        <button class="btn btn-secondary" style="color: white;" type="button" id="button-buscar"><i
+            class="bi bi-x-circle"></i> Limpiar</button>
       </div>
     </form>
 
     <!-- Botón de agregar Ubicacion fisica -->
     <div class="mb-4 text-end">
-      <button class="btn btn-agregar" data-bs-toggle="modal" data-bs-target="#modalAgregarUbicacion"><i
+      <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalAgregarUbicacion"><i
           class="fas fa-plus-circle"></i> Agregar Ubicacion fisica</button>
     </div>
 

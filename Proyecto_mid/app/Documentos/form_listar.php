@@ -1,12 +1,12 @@
 <?php
 require_once '../.././config/server_connection.php';
 require_once '../.././utils/paginador.php';
-$query = "SELECT * FROM tbl_unidades_medida";
+$query = "SELECT * FROM tbl_documentos_fiscales";
 
 $paginador = new Paginador();
 if (isset($_GET['buscar']) && !empty($_GET['buscar'])) {
   $query .= " WHERE nombre LIKE '%" . $_GET['buscar'] . "%'
-  OR id_unidad_medida LIKE '%" . $_GET['buscar'] . "%' 
+  OR id_documento_fiscal LIKE '%" . $_GET['buscar'] . "%' 
   ";
 }
 $paginador->query = $query;
@@ -31,13 +31,13 @@ $paginador->crear_paginador();
 
 <body>
   <div class="container mt-5">
-    <h2 class="list-header">Listado de Unidades de medida</h2>
+    <h2 class="list-header">Listado de Documentos Fiscales</h2>
 
     <!-- Barra de búsqueda -->
     <form action="" method="get" autocomplete="off">
       <div class="input-group mb-4">
-        <input type="text" class="form-control" placeholder="Ingrese una Unidad de medida a buscar" name="buscar" id="buscar" onkeyup="generar_datagrid();"
-          aria-label="Buscar Unidad" aria-describedby="button-buscar" value="<?php echo @$_GET['buscar'] ?>">
+        <input type="text" class="form-control" placeholder="Ingrese una marca a buscar" name="buscar" id="buscar" onkeyup="generar_datagrid();"
+          aria-label="Buscar marca" aria-describedby="button-buscar" value="<?php echo @$_GET['buscar'] ?>">
         <button class="btn btn-primary" type="submit" id="button-buscar"><i class="fas fa-search"></i>
           Buscar</button>
         <button class="btn btn-secondary" style="color: white;" type="button" id="button-buscar"><i
@@ -45,56 +45,56 @@ $paginador->crear_paginador();
       </div>
     </form>
 
-    <!-- Botón de agregar Unidad de medida -->
+    <!-- Botón de agregar -->
     <div class="mb-4 text-end">
-      <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalAgregarUnidad"><i
-          class="fas fa-plus-circle"></i> Agregar Unidad Medida</button>
+      <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalAgregarDocumento"><i
+          class="fas fa-plus-circle"></i> Agregar Documento Fiscal</button>
     </div>
 
-    <!-- Tabla de Unidad de medida -->
+    <!-- Tabla de documentos -->
     <div class="table-container" id="div_datagrid">
     </div>
   </div>
 
-  <!-- Modal para agregar nueva Unidad de medida -->
-  <form id="formAgregarUnidad" method="post" action="./proc_agregar.php">
-    <div class="modal fade" id="modalAgregarUnidad" tabindex="-1" aria-labelledby="modalAgregarUnidadLabel"
+  <!-- Modal para agregar-->
+  <form id="formAgregarDocumento" method="post" action="./proc_agregar.php">
+    <div class="modal fade" id="modalAgregarDocumento" tabindex="-1" aria-labelledby="modalAgregarDocumentoLabel"
       aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="modalAgregarUnidadLabel">Agregar Nueva Unidad de Medida</h5>
+            <h5 class="modal-title" id="modalAgregarDocumentoLabel">Agregar Nuevo Documento</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="mb-3">
-              <label for="nombreUnidad" class="form-label">Nombre de la Unidad de Medida</label>
-              <input type="text" class="form-control" id="nombreUnidad" name="nombreuni"
-                placeholder="Ingrese el nombre de la Unidad de medida">
+              <label for="nombredo" class="form-label">Nombre del Documento Fiscal</label>
+              <input type="text" class="form-control" id="nombredo" name="nombredo"
+                placeholder="Ingrese el nombre del Documento Fiscal">
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary" onclick="agregarUnidad()">Guardar</button>
+            <button type="submit" class="btn btn-primary" onclick="AgregarDocumento()">Guardar</button>
           </div>
         </div>
       </div>
     </div>
   </form>
 
-  <!-- Modal para ver detalles de la Unidades de medida-->
+  <!-- Modal para ver detalles -->
 
   <div class="modal fade" id="modalVerDetalles" tabindex="-1" aria-labelledby="modalVerDetallesLabel"
     aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modalVerDetallesLabel">Detalles de la Unidad de medida</h5>
+          <h5 class="modal-title" id="modalVerDetallesLabel">Detalles del Documento Fiscal</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p><strong>Id de Unidad de medida:</strong> <span id="detalleIdUnidad"></span></p>
-          <p><strong>Nombre de la Unidad de medida:</strong> <span id="detalleNombreUnidad"></span></p>
+          <p><strong>Id de Documento:</strong> <span id="detalleIdDoc"></span></p>
+          <p><strong>Nombre del Documento Fiscal:</strong> <span id="detalleNombreDoc"></span></p>
           <!-- Agrega más detalles aquí si es necesario -->
         </div>
         <div class="modal-footer">
@@ -104,24 +104,24 @@ $paginador->crear_paginador();
     </div>
   </div>
 
-  <!-- Modal para editar la Unidad de medida-->
-  <form id="formEditarUnidad" action="./proc_editar.php" method="post">
-    <div class="modal fade" id="modalEditarUnidad" tabindex="-1" aria-labelledby="modalEditarUnidadLabel"
+  <!-- Modal para editar -->
+  <form id="formEditarDoc" action="./proc_editar.php" method="post">
+    <div class="modal fade" id="modalEditarDoc" tabindex="-1" aria-labelledby="modalEditarDocLabel"
       aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="modalEditarUnidadLabel">Editar Unidad</h5>
+            <h5 class="modal-title" id="modalEditarDocLabel">Editar Documento Fiscal</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <!-- Campo oculto para el ID de la Unidad de medida-->
-            <input type="hidden" id="idUnidad" name="id_unidad_medida">
+            <!-- Campo oculto para el ID -->
+            <input type="hidden" id="idDoc" name="id_documento_fiscal">
 
             <div class="mb-3">
-              <label for="nombreUnidadEditar" class="form-label">Nombre de la Unidad de medida</label>
-              <input type="text" class="form-control" id="nombreUnidadEditar" name="nombre"
-                placeholder="Ingrese el nuevo nombre de la Unidad">
+              <label for="nombreMarcaEditar" class="form-label">Nombre del Documento Fiscal</label>
+              <input type="text" class="form-control" id="nombreDocEditar" name="nombre"
+                placeholder="Ingrese el nuevo nombre del Documento">
             </div>
           </div>
           <div class="modal-footer">
@@ -141,10 +141,10 @@ $paginador->crear_paginador();
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
-    // Función para mostrar detalles de la Unidad de medida en el modal
-    function verDetallesUnidad(id, nombre) {
-      document.getElementById('detalleIdUnidad').innerText = id;
-      document.getElementById('detalleNombreUnidad').innerText = nombre;
+    // Función para mostrar detalles de la Marca en el modal
+    function verDetallesDoc(id, nombre) {
+      document.getElementById('detalleIdDoc').innerText = id;
+      document.getElementById('detalleNombreDoc').innerText = nombre;
 
       const modalDetalles = new bootstrap.Modal(document.getElementById('modalVerDetalles'));
       modalDetalles.show();
@@ -152,16 +152,16 @@ $paginador->crear_paginador();
 
     // Función para mostrar el modal de edición
     function mostrarModalEditar(id, nombre) {
-      UnidadEditando = nombre;
-      Unidad_id = id;
-      document.getElementById('idUnidad').value = id;
-      document.getElementById('nombreUnidadEditar').value = nombre;
+      DocEditando = nombre;
+      Doc_id = id;
+      document.getElementById('idDoc').value = id;
+      document.getElementById('nombreDocEditar').value = nombre;
 
-      const modalEditar = new bootstrap.Modal(document.getElementById('modalEditarUnidad'));
+      const modalEditar = new bootstrap.Modal(document.getElementById('modalEditarDoc'));
       modalEditar.show();
     }
 
-    function eliminar(id_Unidad_medida) {
+    function eliminar(id_documento_fiscal) {
       Swal.fire({
         title: '¿Estás seguro?',
         text: "¡No podrás revertir esto!",
@@ -175,7 +175,26 @@ $paginador->crear_paginador();
         CancelButtonText: 'Cancelar'
       }).then((result) => {
         if (result.isConfirmed) {
-          window.location.href = `./proc_eliminar.php?id=${encodeURIComponent(id_Unidad_medida)}`;;
+          window.location.href = `./proc_eliminar.php?id=${encodeURIComponent(id_documento_fiscal)}`;;
+        }
+      });
+    }
+
+    function editar(id_documento_fiscal) {
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¡No podrás revertir esto!",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, editar!',
+        timer: 5000,
+        focusCancel: true,
+        CancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = `./proc_editar.php?id=${encodeURIComponent(id_documento_fiscal)}`;;
         }
       });
     }
@@ -191,11 +210,11 @@ $paginador->crear_paginador();
       let buscar = document.getElementById("buscar").value || ''; // Si no hay búsqueda, buscar será vacío
       let pagina = <?php echo $paginador->pag_actual; ?>; // Obtenemos la página actual desde PHP y se la pasamos atravez de la url al form_listar.php de forma asincrona
       let xhr = new XMLHttpRequest();
-      xhr.open("GET", "./listado_unidades.php?buscar=" + buscar + "&pa=" + pagina, true); // Incluir número de página
+      xhr.open("GET", "./listado_documentos.php?buscar=" + buscar + "&pa=" + pagina, true); // Incluir número de página
       xhr.onload = function() {
         if (xhr.status === 200) {
           let div_response = document.getElementById("div_datagrid");
-          div_response.innerHTML = xhr.responseText; // Inserta el contenido de listado_unidades.php en el div_datagrid
+          div_response.innerHTML = xhr.responseText; // Inserta el contenido de listado_marcas.php en el div_datagrid
         } else {
           console.error("Error en la solicitud: " + xhr.statusText);
         }
@@ -208,7 +227,7 @@ $paginador->crear_paginador();
 
     function limpiarBusqueda() {
       document.getElementById("buscar").value = ''; // Limpiar el campo de búsqueda
-      generar_datagrid(); // Volver a cargar todos las Unidades de medida
+      generar_datagrid(); // Volver a cargar todos las categorias
     }
   </script>
   <script>
