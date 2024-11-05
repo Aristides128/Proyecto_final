@@ -20,7 +20,6 @@ $nit = @$_REQUEST['nit'];
 $nrc = @$_REQUEST['nrc'];
 $giro = @$_REQUEST['giro'];
 
-
 $campos = [
   $nombre,
   $tipo_cliente,
