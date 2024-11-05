@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ventas</title>
-</head>
-<body>
+<?php
 
-</body>
-</html>
+
+$string = 'Este es un ejemplo de cadena larga';
+$longitud = 18;
+
+$cadena_corta = substr($string, 0, $longitud);
+echo $cadena_corta;
