@@ -16,39 +16,24 @@ $paginador->destino = 'form_listar.php';
 $paginador->crear_paginador();
 
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Listar productos</title>
-  <!-- Bootstrap CSS -->
+  <title>Editar Producto</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Boxicons CSS -->
-  <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
   <!-- Custom CSS -->
   <link rel="stylesheet" href="../../assets/css/index_productos.css">
-  <link rel="stylesheet" href="../../assets/css/estilo_listar.css">
+  <link rel="stylesheet" href="../../assets/css/estilo_agregar.css">
   <link rel="stylesheet" href="../../assets/css/estilodetalles.css">
 </head>
-<style>
-  .card {
-    padding: 5px;
-  }
-
-  .card:hover {
-    transform: scale(1.01);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-  }
-</style>
 
 <body>
   <div class="sidebar close">
@@ -174,7 +159,7 @@ $paginador->crear_paginador();
   <section class="home-section">
     <div class="home-content">
       <i class='bx bx-menu'></i>
-      <span class="title">Dashboard</span>
+      <span class="title">Menu</span>
     </div>
 
     <!-- Adaptación de contenido al content-wrapper -->
@@ -184,56 +169,12 @@ $paginador->crear_paginador();
 
         <!-- Barra de búsqueda -->
         <div class="input-group mb-4">
-          <input type="text" class="form-control" placeholder="Ingrese un producto a buscar" aria-label="Buscar elementos" aria-describedby="button-buscar">
-          <button class="btn btn-primary" type="button" name="buscar" id="buscar" onkeyup="generar_datagrid();"><i class="bi bi-search"></i> Buscar</button>
+          <input type="text" class="form-control" placeholder="Ingrese un producto a buscar" aria-label="Buscar elementos" aria-describedby="button-buscar"name="buscar" id="buscar" onkeyup="generar_datagrid();">
+          <button class="btn btn-primary" type="button" ><i class="bi bi-search"></i> Buscar</button>
           <button class="btn btn-warning" type="button" id="button-buscar"><i class="bi bi-x-circle"></i> Limpiar</button>
-
         </div>
-
-        <div class="container-fluid mt-4">
-      
-  <!-- Contenedor de la fila -->
-  <div class="row g-3">
-  <?php echo $paginador->mostrar_paginador(); ?>
-  <br>
-    <!-- Listado de elementos -->
-    <?php foreach ($paginador->registros_pagina as $Productos): ?>
-      <!-- Card Item -->
-      <div class="col-12 col-md-4">
-        <div class="card h-100 border-0 shadow-sm rounded-3">
-          <!-- Contenedor de la imagen -->
-          <div class="ratio ratio-4x3" style="border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;">
-            <img src="<?php echo $Productos['imagen']; ?>" alt="Imagen del Producto" class="img-fluid" style="width: 100%; height: 100%; object-fit: contain; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;">
-          </div>
-          <!-- Contenido de la tarjeta -->
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title fs-5 text-primary"><?php echo $Productos['nombre']; ?></h5>
-            <p class="card-text fs-6 text-muted"><?php echo substr($Productos['detalles'], 0, 86)?></p>
-            <div class="mt-auto">
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <span class="badge bg-primary">Categoría</span>
-                <span class="badge bg-secondary">Marca</span>
-              </div>
-              <div class="d-flex justify-content-start flex-wrap gap-2">
-                <button class="btn btn-sm btn-outline-primary" onclick="location.href='./detalles.php'" data-bs-toggle="tooltip" title="Ver Detalles" data-bs-placement="left">
-                  <i class="bi bi-eye"></i> Ver
-                </button>
-                <button class="btn btn-sm btn-outline-success" data-bs-toggle="tooltip" title="Editar este Producto" data-bs-placement="left">
-                  <i class="bi bi-pencil"></i> Editar
-                </button>
-                <button class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Eliminar Este Producto" data-bs-placement="left">
-                  <i class="bi bi-trash"></i> Eliminar
-                </button>
-              </div>
-            </div>
-          </div>
+        <div class="container-fluid mt-4" id="div_datagrid">
         </div>
-      </div>
-    <?php endforeach; ?>
-  </div>
-</div>
-
-
       </div>
     </div>
   </section>
@@ -249,3 +190,33 @@ $paginador->crear_paginador();
 </body>
 
 </html>
+<script>
+  // Ejecutar la búsqueda inicial al cargar la página
+  window.onload = function() {
+    generar_datagrid();
+  };
+
+  function generar_datagrid() {
+    let buscar = document.getElementById("buscar").value || ''; // Si no hay búsqueda, buscar será vacío
+    let pagina = <?php echo $paginador->pag_actual; ?>; // Obtenemos la página actual desde PHP y se la pasamos atravez de la url al form_listar.php de forma asincrona
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", "./listado_productos.php?buscar=" + buscar + "&pa=" + pagina, true); // Incluir número de página
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        let div_response = document.getElementById("div_datagrid");
+        div_response.innerHTML = xhr.responseText; // Inserta el contenido de listado_productos.php en el div_datagrid
+      } else {
+        console.error("Error en la solicitud: " + xhr.statusText);
+      }
+    };
+    xhr.onerror = function() {
+      console.error("Error en la conexión.");
+    };
+    xhr.send();
+  }
+
+  function limpiarBusqueda() {
+    document.getElementById("buscar").value = ''; // Limpiar el campo de búsqueda
+    generar_datagrid(); // Volver a cargar todos las Productos
+  }
+</script>
