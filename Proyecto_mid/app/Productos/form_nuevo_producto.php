@@ -237,14 +237,14 @@ $unidades = $server->get_records();
                       <label for="nombre" class="form-label">Nombre del Producto</label>
                       <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-box"></i></span>
-                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ej: Martillo" required>
+                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ej: Martillo">
                       </div>
                     </div>
                     <div class="mb-3">
                       <label for="id_marca" class="form-label">Marca</label>
                       <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-star"></i></span>
-                        <select class="form-select" id="id_marca" name="id_marca" required>
+                        <select class="form-select" id="id_marca" name="id_marca">
                           <option value="" disabled selected>Selecciona una Marca</option>
                           <?php
                           foreach ($marcas as $marca) {
@@ -259,7 +259,7 @@ $unidades = $server->get_records();
                       <label for="id_categoria" class="form-label">Categoría</label>
                       <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-tags"></i></span>
-                        <select class="form-select" id="id_categoria" name="id_categoria" required>
+                        <select class="form-select" id="id_categoria" name="id_categoria">
                           <option value="" disabled selected>Selecciona una Categoría</option>
                           <?php
                           foreach ($categorias as $categoria) {
@@ -274,7 +274,7 @@ $unidades = $server->get_records();
                       <label for="id_unidad" class="form-label">Unidad</label>
                       <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-star"></i></span>
-                        <select class="form-select" id="id_unidad" name="id_unidad_medida" required>
+                        <select class="form-select" id="id_unidad" name="id_unidad_medida">
                           <option value="" disabled selected>Selecciona una Unidad fisica</option>
                           <?php
                           foreach ($unidades as $unidad) {
@@ -300,7 +300,7 @@ $unidades = $server->get_records();
                       <label for="id_Ubicacion" class="form-label">Ubicacion</label>
                       <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-star"></i></span>
-                        <select class="form-select" id="id_ubidacion" name="id_ubicacion_fisica" required>
+                        <select class="form-select" id="id_ubidacion" name="id_ubicacion_fisica">
                           <option value="" disabled selected>Selecciona una Unidad</option>
                           <?php
                           foreach ($ubicaciones as $ubicacion) {
@@ -315,7 +315,7 @@ $unidades = $server->get_records();
                       <label for="detalles" class="form-label">Detalles</label>
                       <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
-                        <textarea class="form-control" id="detalles" name="detalles" rows="3" placeholder="Descripción del producto" required></textarea>
+                        <textarea class="form-control" id="detalles" name="detalles" rows="3" placeholder="Descripción del producto"></textarea>
                       </div>
                     </div>
                     <div class="row">
@@ -323,21 +323,21 @@ $unidades = $server->get_records();
                         <label for="precio_venta1" class="form-label">Precio Venta 1</label>
                         <div class="input-group">
                           <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
-                          <input type="number" class="form-control" id="precio_venta1" name="precio_venta1" placeholder="$0.00" step="0.01" min="1" required>
+                          <input type="number" class="form-control" id="precio_venta1" name="precio_venta1" placeholder="$0.00" step="0.01" min="1">
                         </div>
                       </div>
                       <div class="col-md-4">
                         <label for="precio_venta2" class="form-label">Precio Venta 2</label>
                         <div class="input-group">
                           <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
-                          <input type="number" class="form-control" id="precio_venta2" name="precio_venta2" placeholder="$0.00" step="0.01" min="1" required>
+                          <input type="number" class="form-control" id="precio_venta2" name="precio_venta2" placeholder="$0.00" step="0.01" min="1">
                         </div>
                       </div>
                       <div class="col-md-4">
                         <label for="precio_venta3" class="form-label">Precio Venta 3</label>
                         <div class="input-group">
                           <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
-                          <input type="number" class="form-control" id="precio_venta3" name="precio_venta3" placeholder="$0.00" min="1" step="0.01" required>
+                          <input type="number" class="form-control" id="precio_venta3" name="precio_venta3" placeholder="$0.00" min="1" step="0.01">
                         </div>
                       </div>
                     </div>
@@ -358,24 +358,24 @@ $unidades = $server->get_records();
                       <label for="codigo_interno" class="form-label">Código Interno</label>
                       <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-barcode"></i></span>
-                        <input type="text" class="form-control" id="codigo_interno" name="codigo_interno" required>
+                        <input type="text" class="form-control" id="codigo_interno" name="codigo_interno">
                       </div>
                     </div>
                     <div class="mb-3">
                       <label for="codigo_barras" class="form-label">Código de Barras</label>
                       <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-barcode"></i></span>
-                        <input type="text" class="form-control" id="codigo_barras" name="codigo_barras" required>
+                        <input type="text" class="form-control" id="codigo_barras" name="codigo_barras">
                       </div>
                     </div>
                     <div class="mb-3">
                       <label for="existencias_minimas" class="form-label">Existencias Mínimas</label>
                       <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-boxes"></i></span>
-                        <input type="number" class="form-control" id="existencias_minimas" name="existencias_minimas" required>
+                        <input type="number" class="form-control" id="existencias_minimas" name="existencias_minimas">
                       </div>
                     </div>
-                    
+
                   </div>
                 </div>
               </div>
@@ -387,11 +387,11 @@ $unidades = $server->get_records();
                     <h5>Imagen y Estado</h5>
                   </div>
                   <div class="card-body">
-                  <div class="mb-3">
+                    <div class="mb-3">
                       <label for="id_presentacion" class="form-label">Presentacion</label>
                       <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-star"></i></span>
-                        <select class="form-select" id="id_presentacion" name="id_presentacion" required>
+                        <select class="form-select" id="id_presentacion" name="id_presentacion">
                           <option value="" disabled selected>Selecciona una Presentacion</option>
                           <?php
                           foreach ($presentaciones as $presentacion) {

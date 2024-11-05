@@ -8,11 +8,10 @@
 
 require_once '../../config/server_connection.php';
 
-
-
 date_default_timezone_set("America/El_Salvador");
 $fecha_registro = date("Y-m-d");
 
+$id_producto = @$_REQUEST['id_producto'];
 $nombre = @$_REQUEST['nombre'];
 $detalles = @$_REQUEST['detalles'];
 $id_marca = @$_REQUEST['id_marca'];
@@ -31,29 +30,35 @@ $activo = @$_REQUEST['activo'];
 $imageurl = "";
 
 $campos = [
-  $nombre, $detalles,
-  $id_marca, $id_categoria,
-  $id_ubicacion_fisica, $id_presentacion,
-  $id_unidad_medida, $existencias_minimas,
-  $precio_venta1, $precio_venta2,
-  $precio_venta3, $codigo_interno,
+  $id_producto,
+  $nombre,
+  $detalles,
+  $id_marca,
+  $id_categoria,
+  $id_ubicacion_fisica,
+  $id_presentacion,
+  $id_unidad_medida,
+  $existencias_minimas,
+  $precio_venta1,
+  $precio_venta2,
+  $precio_venta3,
+  $codigo_interno,
 ];
-
 
 foreach ($campos as $variables) {
   if (empty($variables)) {
     echo "<script>
     Swal.fire({
-    title: 'Error al registrar',
+    title: 'Error al actualizar',
     text: 'Todos los campos son obligatorios',
     icon: 'error',
     confirmButtonText: 'Aceptar',
     }).then(() => {
-    window.location.href = 'form_nuevo_producto.php';
+    window.location.href = 'form_listar.php';
     });
 </script>
     ";
-exit();
+    exit();
   }
 }
 
@@ -87,37 +92,36 @@ if (is_uploaded_file($_FILES['imagen']['tmp_name'])) {
 }
 $conexion = new ServerConnection();
 
-$conexion->query = "INSERT INTO tbl_productos 
-(nombre, detalles, 
-id_marca, id_categoria,
-id_ubicacion_fisica, id_presentacion,
-id_unidad_medida, existencias_minimas,
-precio_venta1, precio_venta2,
-precio_venta3, codigo_interno,
-codigo_barras, imagen,
-fecha_registro, activo
-) VALUES 
-(
-'$nombre', '$detalles',
-'$id_marca', '$id_categoria',
-'$id_ubicacion_fisica', '$id_presentacion',
-'$id_unidad_medida', '$existencias_minimas',
-'$precio_venta1', '$precio_venta2',
-'$precio_venta3', '$codigo_interno',
-'$codigo_barras', '$imageurl',
-'$fecha_registro', '$activo'
-)";
+$conexion->query = "UPDATE tbl_productos SET
+nombre = '{$nombre}', 
+detalles = '{$detalles}', 
+id_marca = '{$id_marca}',
+id_categoria = '{$id_categoria}',
+id_ubicacion_fisica = '{$id_ubicacion_fisica}', 
+id_presentacion = '{$id_presentacion}',
+id_unidad_medida = '{$id_unidad_medida}', 
+existencias_minimas = '{$existencias_minimas}',
+precio_venta1 = '{$precio_venta1}', 
+precio_venta2 = '{$precio_venta2}',
+precio_venta3 = '{$precio_venta3}', 
+codigo_interno = '{$codigo_interno}',
+codigo_barras = '{$codigo_barras}', 
+imagen = '{$imagen}',
+fecha_registro  ='{$fecha_registro}', 
+activo = '{$activo}'
+WHERE id_producto = '{$id_producto}';
+";
 
 $conexion->execute_query();
 
 echo "<script>
 Swal.fire({
-title: 'Producto registrado',
-text: 'El producto ha sido registrado con éxito',
+title: 'Producto actualizado',
+text: 'El producto ha sido actualizado con éxito',
 icon: 'success',
 confirmButtonText: 'Aceptar',
 timer: 3000
 }).then(() => {
-window.location.href = 'form_nuevo_producto.php';
+window.location.href = 'form_listar.php';
 });
 </script>";
