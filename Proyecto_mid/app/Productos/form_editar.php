@@ -148,7 +148,7 @@
       <div class="container-fluid">
         <h2 class="edit-header text-center list-header">Editar Producto</h2>
         <form action="/guardar-producto" method="POST" enctype="multipart/form-data">
-        <div class="d-flex justify-content-end mt-4">
+          <div class="d-flex justify-content-end mt-4">
             <button type="submit" class="btn btn-success me-3"><i class="bi bi-floppy2-fill"></i> Guardar Cambios</button>
             <button type="submit" class="btn btn-primary me-3"><i class="bi bi-plus-circle"></i> Nuevo producto</button>
             <a href="index.html" class="btn btn-warning"><i class="bi bi-x-lg"></i> Cancelar</a>
