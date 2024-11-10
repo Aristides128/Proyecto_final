@@ -10,7 +10,7 @@ require_once '../../config/server_connection.php';
 date_default_timezone_set("America/El_Salvador");
 $fecha_registro = date("Y-m-d");
 
-$id_cliente = @$_REQUEST['id_cliente'];
+$id_cliente = (int)@$_REQUEST['id'];
 
 
 if ($id_cliente == ' ') {
@@ -21,29 +21,31 @@ if ($id_cliente == ' ') {
   icon: 'error',
   confirmButtonText: 'Aceptar',
   }).then(() => {
-  window.location.href = 'form_listar.php';
+  window.location.href = 'form_listar_todos.php';
   });
   </script>
   ";
   exit();
 }
 
+
+
 $conexion = new ServerConnection();
 
-$conexion->query = "DELETE tbl_clientes WHERE id_cliente = '{$id_cliente}';
-";
+$conexion->query = ("DELETE FROM tbl_clientes WHERE id_cliente = '{$id_cliente}'");
+
 
 $conexion->execute_query();
 
 echo "<script>
 Swal.fire({
 title: 'Cliente eliminado',
-text: 'El cliente ha sido eliminado con éxito',
+text: 'El Cliente ha sido eliminado con éxito',
 icon: 'success',
 confirmButtonText: 'Aceptar',
 timer: 3000
 }).then(() => {
-window.location.href = 'form_listar.php';
+window.location.href = 'form_listar_todos.php';
 });
 </script>";
 

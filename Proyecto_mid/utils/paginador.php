@@ -41,23 +41,23 @@ class Paginador extends ServerConnection
     if ($pg_ultimo != 1) {
       if ($pg_num_pagina > 1) {
         $pg_anterior = $pg_num_pagina - 1;
-        $this->controles_navegacion .= "<input type='button' onclick='javascript:CambiarPagina(" . $pg_anterior . ");' id='btn_pag' value='Anterior'>";
+        $this->controles_navegacion .= "<input type='button'class='btn btn-outline-secondary' onclick='javascript:CambiarPagina(" . $pg_anterior . ");' id='btn_pag' value='Anterior'>";
         for ($i = $pg_num_pagina - 4; $i < $pg_num_pagina; $i++) {
           if ($i > 0) {
-            $this->controles_navegacion .= "<input type='button' onclick='javascript:CambiarPagina(" . $i . ");' id='btn_pag' value='" . $i . "'>";
+            $this->controles_navegacion .= "<input type='button' class='btn btn-primary onclick='javascript:CambiarPagina(" . $i . ");' id='btn_pag' value='" . $i . "'>";
           }
         }
       }
-      $this->controles_navegacion .= "<input type='button' id='pag_act' value='" . $pg_num_pagina . "'>";
+      $this->controles_navegacion .= "<input type='button' class='btn btn-secondary' id='pag_act' value='" . $pg_num_pagina . "'>";
       for ($i = $pg_num_pagina + 1; $i <= $pg_ultimo; $i++) {
-        $this->controles_navegacion .= "<input type='button'  onclick='javascript:CambiarPagina(" . $i . ");' id='btn_pag' value='" . $i . "'>";
+        $this->controles_navegacion .= "<input type='button' class='btn btn-primary' onclick='javascript:CambiarPagina(" . $i . ");' id='btn_pag' value='" . $i . "'>";
         if ($i >= $pg_num_pagina + 4) {
           break;
         }
       }
       if ($pg_num_pagina != $pg_ultimo) {
         $pg_siguiente = $pg_num_pagina + 1;
-        $this->controles_navegacion .= "<input type='button' onclick='javascript:CambiarPagina(" . $pg_siguiente . ");' id='btn_pag' value='Siguiente'>";
+        $this->controles_navegacion .= "<input type='button' class='btn btn-outline-secondary' onclick='javascript:CambiarPagina(" . $pg_siguiente . ");' id='btn_pag' value='Siguiente'>";
       }
     }
 ?>

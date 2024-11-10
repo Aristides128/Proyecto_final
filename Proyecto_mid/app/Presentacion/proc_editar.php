@@ -32,15 +32,15 @@ $conexion->query = ("UPDATE tbl_presentaciones SET nombre = '{$nombre}' WHERE id
 $conexion->execute_query();
 
 echo "<script>
-    Swal.fire({
-    title: 'Presentacion Actualizada',
-    text: 'La Presentacion ha sido editada con éxito',
-    icon: 'success',
-    confirmButtonText: 'Aceptar',
-    timer: 3000
-    }).then(() => {
-    window.location.href = 'form_listar.php';
-    });
+Swal.fire({
+title: 'Presentacion Actualizada',
+text: 'La Presentacion ha sido editada con éxito',
+icon: 'success',
+confirmButtonText: 'Aceptar',
+timer: 3000
+}).then(() => {
+window.location.href = 'form_listar.php';
+});
 </script>";
 
 ?>

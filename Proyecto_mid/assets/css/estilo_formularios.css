@@ -1,0 +1,73 @@
+body {
+    background-color: #f1f3f5;
+    font-family: 'Arial', sans-serif;
+    color: #495057;
+  }
+
+  .card-custom {
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    border: none;
+  }
+
+  .form-section {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-section-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 10px;
+  }
+
+  .form-control {
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    background-color: #fafafa;
+    transition: border-color 0.3s ease;
+  }
+
+  label {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+  }
+
+  .btn-agregar {
+    background-color: #198754;
+    color: #ffffff;
+    font-weight: bold;
+    border-radius: 12px;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-agregar:hover {
+    background-color: #157347;
+  }
+
+  .btn-danger {
+    background-color: #e74c3c;
+    color: white;
+    border-radius: 12px;
+  }
+
+  .btn-danger:hover {
+    background-color: #c0392b;
+  }
+
+  .form-control:focus {
+    border-color: #198754;
+    box-shadow: 0 0 5px rgba(25, 135, 84, 0.5);
+  }
+
+  .highlight {
+    background-color: #f9fafb;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+  }

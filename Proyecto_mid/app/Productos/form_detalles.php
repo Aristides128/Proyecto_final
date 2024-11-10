@@ -1,203 +1,289 @@
+<?php
+//marcas, categorias, ubicaciones fisicas, presentaciones, unidades de medida
+require_once '../../config/server_connection.php';
+
+$id_producto = @$_REQUEST['id'];
+
+// Marcas
+$server = new ServerConnection();
+
+$server->query = "SELECT * FROM tbl_marcas";
+$marcas = $server->get_records();
+
+// Categorias
+$server->query = "SELECT * FROM tbl_categorias";
+$categorias = $server->get_records();
+
+// Ubicaciones fisicas
+$server->query = "SELECT * FROM tbl_ubicaciones_fisicas";
+$ubicaciones = $server->get_records();
+
+// Presentaciones
+$server->query = "SELECT * FROM tbl_presentaciones";
+$presentaciones = $server->get_records();
+
+// Unidades de medida
+$server->query = "SELECT * FROM tbl_unidades_medida";
+$unidades = $server->get_records();
+
+$server->query = "SELECT
+  tbl_productos.*,
+  tbl_marcas.id_marca AS id_marca,
+  tbl_categorias.id_categoria AS id_categoria,
+  tbl_ubicaciones_fisicas.id_ubicacion_fisica AS id_ubicacion_fisica,
+  tbl_presentaciones.id_presentacion AS id_presentacion,
+  tbl_unidades_medida.id_unidad_medida AS id_unidad_medida
+FROM
+  tbl_productos
+  INNER JOIN tbl_marcas ON tbl_productos.id_marca = tbl_marcas.id_marca
+  INNER JOIN tbl_categorias ON tbl_productos.id_categoria = tbl_categorias.id_categoria
+  INNER JOIN tbl_ubicaciones_fisicas ON tbl_productos.id_ubicacion_fisica = tbl_ubicaciones_fisicas.id_ubicacion_fisica
+  INNER JOIN tbl_presentaciones ON tbl_productos.id_presentacion = tbl_presentaciones.id_presentacion
+  INNER JOIN tbl_unidades_medida ON tbl_productos.id_unidad_medida = tbl_unidades_medida.id_unidad_medida
+WHERE
+  tbl_productos.id_producto = '{$id_producto}';
+";
+$dt_producto = $server->get_records();
+
+$nombre_producto = $dt_producto[0]['nombre'];
+$detalles_producto = $dt_producto[0]['detalles'];
+$precio_venta1 = $dt_producto[0]['precio_venta1'];
+$precio_venta2 = $dt_producto[0]['precio_venta2'];
+$precio_venta3 = $dt_producto[0]['precio_venta3'];
+$existencias_minimas = $dt_producto[0]['existencias_minimas'];
+$codigo_interno = $dt_producto[0]['codigo_interno'];
+$codigo_barras = $dt_producto[0]['codigo_barras'];
+$imagen = $dt_producto[0]['imagen'] == '' ? '../../assets/images/imagen_productos/sin_imagen.png' : $dt_producto[0]['imagen'];
+$nombre_marca = $dt_producto[0]['id_marca'];
+$nombre_categoria = $dt_producto[0]['id_categoria'];
+$nombre_ubicaciones_fisicas = $dt_producto[0]['id_ubicacion_fisica'];
+$nombre_presentacion = $dt_producto[0]['id_presentacion'];
+$nombre_unidades_medida = $dt_producto[0]['id_unidad_medida'];
+?>
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detalles del Producto</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="../../assets/css/custom.css">
-  <style>
-    body {
-      background-color: #f8f9fa;
-      font-family: 'Arial', sans-serif;
-    }
-
-    .sidebar {
-      background-color: #343a40;
-      height: 100vh;
-      padding: 20px;
-      color: white;
-    }
-
-    .sidebar .logo-details {
-      display: flex;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .sidebar .nav-links {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    .sidebar .nav-links li {
-      margin: 10px 0;
-    }
-
-    .sidebar .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-size: 16px;
-      transition: color 0.3s;
-    }
-
-    .sidebar .nav-links a:hover {
-      color: #dc3545;
-    }
-
-    .details-container {
-      background-color: white;
-      border-radius: 15px;
-      padding: 30px;
-
-      margin-top: 30px;
-
-    }
-
-    .product-image {
-      max-width: 100%;
-      height: auto;
-      border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-      transition: transform 0.3s;
-    }
-
-    .product-image:hover {
-      transform: scale(1.05);
-    }
-
-    h2.edit-header {
-      margin-bottom: 20px;
-      font-size: 2rem;
-      color: #343a40;
-      text-align: center;
-      border-bottom: 2px solid #dc3545;
-      padding-bottom: 10px;
-    }
-
-    h4 {
-      color: #555;
-      margin-bottom: 10px;
-      font-size: 1.3rem;
-    }
-
-    p {
-      margin-bottom: 15px;
-      color: #666;
-    }
-
-    .btn-danger {
-      background-color: #dc3545;
-      border-color: #dc3545;
-      transition: background-color 0.3s, transform 0.2s;
-    }
-
-    .btn-danger:hover {
-      background-color: #c82333;
-      border-color: #bd2130;
-      transform: scale(1.05);
-    }
-
-    .mt-4 {
-      margin-top: 2rem !important;
-    }
-
-    .section-title {
-      border-bottom: 2px solid #dc3545;
-      padding-bottom: 10px;
-      margin-bottom: 20px;
-      color: #dc3545;
-      font-weight: bold;
-    }
-
-    .product-detail {
-      background-color: #e9ecef;
-      padding: 15px;
-      border-radius: 10px;
-      transition: background-color 0.3s;
-    }
-
-    .product-detail:hover {
-      background-color: #d3d3d3;
-    }
-
-    /* Responsive styles */
-    @media (max-width: 768px) {
-      .edit-header {
-        font-size: 1.5rem;
-      }
-
-      .section-title {
-        font-size: 1.2rem;
-      }
-
-      .product-detail {
-        padding: 10px;
-      }
-    }
-  </style>
-</head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Ferretería - Módulo de Detalles Producto</title>
+  <link rel="shortcut icon" href="../../assets/images/logo.ico" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="../../assets/css/Estilo.css">
+  <link rel="stylesheet" href="../../assets/css/estilo_formularios.css">
 
 <body>
-  <div class="container-fluid">
-    <div class="details-container">
-      <h2 class="edit-header">Detalles del Producto</h2>
-      <div class="row">
-        <div class="col-md-6">
-          <h4 class="section-title">Información del Producto</h4>
-          <div class="product-detail">
-            <h4>Nombre del Producto</h4>
-            <p id="nombre">Nombre del Producto Ejemplo</p>
+  </head>
 
-            <h4>Marca</h4>
-            <p id="marca">Marca Ejemplo</p>
+  <body>
+    <div class="container mt-5">
+      <form name="form_nuevo"  method="post" autocomplete="off" enctype="multipart/form-data">
+        <div class="d-flex align-items-center mb-4">
+          <h1 class="fw-bold" style="font-size: 28px; color: #495057; border-bottom: 2px solid #495057;">Módulo de Detalles Producto</h1>
+          <div class="ms-auto">
+            <a href="form_listar.php" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas cancelar?')"><i class="bi bi-x-square-fill"></i> Cancelar</a>
+          </div>
+        </div>
 
-            <h4>Categoría</h4>
-            <p id="categoria">Categoría Ejemplo</p>
+        <div class="card card-custom p-4">
+          <!-- Sección Información del Producto -->
+          <div class="form-section">
+            <div class="form-section-title">Información del Producto</div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $nombre_producto ?>" placeholder="Nombre del Producto" disabled>
+                  <label for="nombre"><i class="bi bi-box me-2"></i>Nombre del Producto</label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="codigo_interno" disabled value="<?php echo $codigo_barras ?>" name="codigo_interno" placeholder="Código Interno" required>
+                  <label for="codigo_interno"><i class="bi bi-barcode me-2"></i>Código Interno</label>
+                </div>
+              </div>
+            </div>
+          </div>
 
-            <h4>Detalles</h4>
-            <p id="detalles">Detalles del producto aquí.</p>
+          <!-- Sección Detalles del Producto -->
+          <div class="form-section">
+            <div class="form-section-title">Detalles del Producto</div>
+            <div class="row g-3">
+              <div class="col-md-12">
+                <div class="form-floating">
+                  <textarea class="form-control" id="detalles" name="detalles" placeholder="Detalles del Producto"  disabled rows="4" required><?php echo $detalles_producto ?></textarea>
+                  <label for="detalles"><i class="bi bi-pencil me-2"></i>Detalles del Producto</label>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="col-md-6 text-center">
-          <img src="../../tiger-jpg.jpg" alt="Imagen del Producto" class="product-image">
-        </div>
-      </div>
-      <div class="row mt-4">
-        <div class="col-md-4">
-          <h4 class="section-title">Precios de Venta</h4>
-          <div class="product-detail">
-            <p id="precio1">Precio 1: $10.00</p>
-            <p id="precio2">Precio 2: $15.00</p>
-            <p id="precio3">Precio 3: $20.00</p>
+
+          <!-- Sección Categoría y Marca -->
+          <div class="form-section highlight">
+            <div class="form-section-title">Categoría y Marca</div>
+            <div class="row g-3">
+              <div class="col-md-4">
+                <div class="form-floating">
+                  <select class="form-control" id="id_marca"  disabled  name="id_marca" required>
+                    <option value="" disabled selected>Seleccionar Marca</option>
+                    <!-- Aquí van las opciones de marcas -->
+                    <?php
+                    foreach ($marcas as $marca) {
+                      $selected = $marca['id_marca'] == $nombre_marca ? 'selected' : '';
+                      echo "<option value='" . $marca['id_marca'] . "' $selected>" . $marca['nombre'] . "</option>";
+                    }
+                    ?>
+                  </select>
+                  <label for="id_marca"><i class="bi bi-tags me-2"></i>Marca</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-floating">
+                  <select class="form-control"  disabled id="id_categoria" name="id_categoria" required>
+                    <option value="" disabled selected>Seleccionar Categoría</option>
+                    <!-- Aquí van las opciones de categorías -->
+                    <?php
+                    foreach ($categorias as $categoria) {
+                      $selected = $categoria['id_categoria'] == $nombre_categoria ? 'selected' : '';
+                      echo "<option value='" . $categoria['id_categoria'] . "' $selected>" . $categoria['nombre'] . "</option>";
+                    }
+                    ?>
+                  </select>
+                  <label for="id_categoria"><i class="bi bi-list-ul me-2"></i>Categoría</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-floating">
+                  <select class="form-control" disabled id="id_ubicacion_fisica" name="id_ubicacion_fisica" required>
+                    <option value="" disabled selected>Seleccionar Ubicación Física</option>
+                    <!-- Aquí van las opciones de ubicaciones -->
+                    <?php
+                    foreach ($ubicaciones as $ubicacion) {
+                      $selected = $ubicacion['id_ubicacion_fisica'] == $nombre_ubicaciones_fisicas ? 'selected' : '';
+                      echo "<option value='" . $ubicacion['id_ubicacion_fisica'] . "' $selected>" . $ubicacion['nombre'] . "</option>";
+                    }
+                    ?>
+                    ?>
+                  </select>
+                  <label for="id_ubicacion_fisica"><i class="bi bi-geo-alt me-2"></i>Ubicación Física</label>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="col-md-4">
-          <h4 class="section-title">Existencias</h4>
-          <div class="product-detail">
-            <p id="existencias_minimas">Existencias Mínimas: 5</p>
-            <p id="codigo_interno">Código Interno: 12345</p>
-            <p id="codigo_barras">Código de Barras: 67890</p>
+
+          <!-- Sección Presentación y Unidad de Medida -->
+          <div class="form-section">
+            <div class="form-section-title">Presentación y Unidad de Medida</div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <select class="form-control"  disabled id="id_presentacion" name="id_presentacion" required>
+                    <option value="" disabled selected>Seleccionar Presentación</option>
+                    <!-- Aquí van las opciones de presentaciones -->
+                    <?php
+                    foreach ($presentaciones as $presentacion) {
+                      $selected = $presentacion['id_presentacion'] == $nombre_presentacion ? 'selected' : '';
+                      echo "<option value='" . $presentacion['id_presentacion'] . "' $selected>" . $presentacion['nombre'] . "</option>";
+                    }
+                    ?>
+                  </select>
+                  <label for="id_presentacion"><i class="bi bi-cup me-2"></i>Presentación</label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <select class="form-control"  disabled id="id_unidad_medida" name="id_unidad_medida" required>
+                    <option value="" disabled selected>Seleccionar Unidad de Medida</option>
+                    <!-- Aquí van las opciones de unidades de medida -->
+                    <?php
+                    foreach ($unidades as $unidad) {
+                      $selected = $unidad['id_unidad_medida'] == $nombre_unidades_medida ? 'selected' : '';
+                      echo "<option value='" . $unidad['id_unidad_medida'] . "' $selected>" . $unidad['nombre'] . "</option>";
+                    }
+                    ?>
+                  </select>
+                  <label for="id_unidad_medida"><i class="bi bi-cube me-2"></i>Unidad de Medida</label>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="col-md-4">
-          <h4 class="section-title">Estado</h4>
-          <div class="product-detail">
-            <p id="estado">Activo</p>
+
+          <!-- Sección Precios y Existencias -->
+          <div class="form-section highlight">
+            <div class="form-section-title">Precios y Existencias</div>
+            <div class="row g-3">
+              <div class="col-md-4">
+                <div class="form-floating">
+                  <input type="number"  disabled class="form-control" id="existencias_minimas" value="<?php echo $existencias_minimas  ?>" name="existencias_minimas" placeholder="Existencias Mínimas" required>
+                  <label for="existencias_minimas"><i class="bi bi-hash me-2"></i>Existencias Mínimas</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-floating">
+                  <input type="number" disabled class="form-control" id="precio_venta1" value="<?php echo $precio_venta1 ?>" name="precio_venta1" placeholder="Precio de Venta 1" required>
+                  <label for="precio_venta1"><i class="bi bi-currency-dollar me-2"></i>Precio de Venta 1</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-floating">
+                  <input type="number"  disabled class="form-control" id="precio_venta2" value="<?php echo $precio_venta2 ?>" name="precio_venta2" placeholder="Precio de Venta 2" required>
+                  <label for="precio_venta2"><i class="bi bi-currency-dollar me-2"></i>Precio de Venta 2</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-floating">
+                  <input type="number"  disabled class="form-control" id="precio_venta3" value="<?php echo $precio_venta3 ?>" name="precio_venta3" placeholder="Precio de Venta 3" required>
+                  <label for="precio_venta3"><i class="bi bi-currency-dollar me-2"></i>Precio de Venta 3</label>
+                </div>
+              </div>
+            </div>
           </div>
+
+          <!-- Sección Código de Barras y Estado -->
+          <div class="form-section">
+            <div class="form-section-title">Código de Barras e Imagen</div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="text"  disabled class="form-control" value="<?php echo $codigo_barras ?>" id="codigo_barras" name="codigo_barras" placeholder="Código de Barras" required>
+                  <label for="codigo_barras"><i class="bi bi-barcode me-2"></i>Código de Barras</label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="file" disabled class="form-control" id="imagen" name="imagen">
+                  <label for="imagen"><i class="bi bi-image me-2"></i>Imagen del Producto</label>
+                </div>
+                <div class="mt-3">
+                  <div class="imagen_producto">
+                    <!-- Mostrar la imagen actual -->
+                    <img src="<?php echo $imagen; ?>" alt="Imagen del producto" width="100px">
+                    <!-- Campo oculto para guardar el valor de la imagen actual -->
+                    <input type="hidden"  disabled id="imagen_bd" name="imagen" value="<?php echo $imagen; ?>">
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+          <!-- Estado Activo -->
+          <div class="form-section">
+            <div class="form-check">
+              <input class="form-check-input" value="Activo" type="checkbox" id="activo" name="activo" checked>
+              <label class="form-check-label" for="activo">
+                <i class="bi bi-check-circle me-2"></i>Producto Activo
+              </label>
+            </div>
+          </div>
+
         </div>
-      </div>
-      <div class="d-flex justify-content-end mt-4">
-        <a href="index.html" class="btn btn-danger">Cancelar</a>
-      </div>
     </div>
-  </div>
-</body>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 
 </html>

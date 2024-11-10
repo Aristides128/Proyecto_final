@@ -45,7 +45,7 @@ foreach ($campos as $variables) {
     echo "<script>
     Swal.fire({
     title: 'Error al registrar',
-    text: 'Todos los campos son obligatorios',
+    text: 'Todos el campo  son obligatorios',
     icon: 'error',
     confirmButtonText: 'Aceptar',
     }).then(() => {
@@ -87,7 +87,7 @@ if (is_uploaded_file($_FILES['imagen']['tmp_name'])) {
 }
 $conexion = new ServerConnection();
 
-$conexion->query = "INSERT INTO tbl_productos 
+$conexion->query = ("INSERT INTO tbl_productos 
 (nombre, detalles, 
 id_marca, id_categoria,
 id_ubicacion_fisica, id_presentacion,
@@ -98,15 +98,15 @@ codigo_barras, imagen,
 fecha_registro, activo
 ) VALUES 
 (
-'$nombre', '$detalles',
-'$id_marca', '$id_categoria',
-'$id_ubicacion_fisica', '$id_presentacion',
-'$id_unidad_medida', '$existencias_minimas',
-'$precio_venta1', '$precio_venta2',
-'$precio_venta3', '$codigo_interno',
-'$codigo_barras', '$imageurl',
-'$fecha_registro', '$activo'
-)";
+'{$nombre}', '{$detalles}',
+'{$id_marca}', '{$id_categoria}',
+'{$id_ubicacion_fisica}', '{$id_presentacion}',
+'{$id_unidad_medida}', '{$existencias_minimas}',
+'{$precio_venta1}', '{$precio_venta2}',
+'{$precio_venta3}', '{$codigo_interno}',
+'{$codigo_barras}', '{$imageurl}',
+'{$fecha_registro}', '{$activo}'
+)");
 
 $conexion->execute_query();
 

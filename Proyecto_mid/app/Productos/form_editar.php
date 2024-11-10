@@ -1,278 +1,290 @@
+<?php
+//marcas, categorias, ubicaciones fisicas, presentaciones, unidades de medida
+require_once '../../config/server_connection.php';
+
+$id_producto = @$_REQUEST['id'];
+
+// Marcas
+$server = new ServerConnection();
+
+$server->query = "SELECT * FROM tbl_marcas";
+$marcas = $server->get_records();
+
+// Categorias
+$server->query = "SELECT * FROM tbl_categorias";
+$categorias = $server->get_records();
+
+// Ubicaciones fisicas
+$server->query = "SELECT * FROM tbl_ubicaciones_fisicas";
+$ubicaciones = $server->get_records();
+
+// Presentaciones
+$server->query = "SELECT * FROM tbl_presentaciones";
+$presentaciones = $server->get_records();
+
+// Unidades de medida
+$server->query = "SELECT * FROM tbl_unidades_medida";
+$unidades = $server->get_records();
+
+$server->query = "SELECT
+  tbl_productos.*,
+  tbl_marcas.id_marca AS id_marca,
+  tbl_categorias.id_categoria AS id_categoria,
+  tbl_ubicaciones_fisicas.id_ubicacion_fisica AS id_ubicacion_fisica,
+  tbl_presentaciones.id_presentacion AS id_presentacion,
+  tbl_unidades_medida.id_unidad_medida AS id_unidad_medida
+FROM
+  tbl_productos
+  INNER JOIN tbl_marcas ON tbl_productos.id_marca = tbl_marcas.id_marca
+  INNER JOIN tbl_categorias ON tbl_productos.id_categoria = tbl_categorias.id_categoria
+  INNER JOIN tbl_ubicaciones_fisicas ON tbl_productos.id_ubicacion_fisica = tbl_ubicaciones_fisicas.id_ubicacion_fisica
+  INNER JOIN tbl_presentaciones ON tbl_productos.id_presentacion = tbl_presentaciones.id_presentacion
+  INNER JOIN tbl_unidades_medida ON tbl_productos.id_unidad_medida = tbl_unidades_medida.id_unidad_medida
+WHERE
+  tbl_productos.id_producto = '{$id_producto}';
+";
+$dt_producto = $server->get_records();
+
+$nombre_producto = $dt_producto[0]['nombre'];
+$detalles_producto = $dt_producto[0]['detalles'];
+$precio_venta1 = $dt_producto[0]['precio_venta1'];
+$precio_venta2 = $dt_producto[0]['precio_venta2'];
+$precio_venta3 = $dt_producto[0]['precio_venta3'];
+$existencias_minimas = $dt_producto[0]['existencias_minimas'];
+$codigo_interno = $dt_producto[0]['codigo_interno'];
+$codigo_barras = $dt_producto[0]['codigo_barras'];
+$imagen = $dt_producto[0]['imagen'] == '' ? '../../assets/images/imagen_productos/sin_imagen.png' : $dt_producto[0]['imagen'];
+$nombre_marca = $dt_producto[0]['id_marca'];
+$nombre_categoria = $dt_producto[0]['id_categoria'];
+$nombre_ubicaciones_fisicas = $dt_producto[0]['id_ubicacion_fisica'];
+$nombre_presentacion = $dt_producto[0]['id_presentacion'];
+$nombre_unidades_medida = $dt_producto[0]['id_unidad_medida'];
+?>
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editar Producto</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="../../assets/css/index_productos.css">
-  <link rel="stylesheet" href="../../assets/css/estilo_agregar.css">
-  <link rel="stylesheet" href="../../assets/css/estilodetalles.css">
-</head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Ferretería - Módulo de editar Producto</title>
+  <link rel="shortcut icon" href="../../assets/images/logo.ico" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="../../assets/css/Estilo.css">
+  <link rel="stylesheet" href="../../assets/css/estilo_formularios.css">
 
 <body>
-  <div class="sidebar close">
-    <div class="logo-details">
-      <i class="bi bi-person-circle"></i>
-      <span class="logo_name">Clienes</span>
-    </div>
-    <ul class="nav-links">
-      <li>
-        <a href="#">
-          <i class="bi bi-person-circle"></i>
-          <span class="link_name">Clientes</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Category</a></li>
-        </ul>
-      </li>
-      <li>
-        <div class="iocn-link">
-          <a href="#">
-            <i class='bx bx-collection'></i>
-            <span class="link_name">Category</span>
-          </a>
-          <i class='bx bxs-chevron-down arrow'></i>
-        </div>
-        <ul class="sub-menu">
-          <li><a class="link_name" href="#">Category</a></li>
-          <li><a href="#">HTML & CSS</a></li>
-          <li><a href="#">JavaScript</a></li>
-          <li><a href="#">PHP & MySQL</a></li>
-        </ul>
-      </li>
-      <li>
-        <div class="iocn-link">
-          <a href="#">
-            <i class='bx bx-book-alt'></i>
-            <span class="link_name">Posts</span>
-          </a>
-          <i class='bx bxs-chevron-down arrow'></i>
-        </div>
-        <ul class="sub-menu">
-          <li><a class="link_name" href="#">Posts</a></li>
-          <li><a href="#">Web Design</a></li>
-          <li><a href="#">Login Form</a></li>
-          <li><a href="#">Card Design</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">
-          <i class='bx bx-pie-chart-alt-2'></i>
-          <span class="link_name">Analytics</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Analytics</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">
-          <i class='bx bx-line-chart'></i>
-          <span class="link_name">Chart</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Chart</a></li>
-        </ul>
-      </li>
-      <li>
-        <div class="iocn-link">
-          <a href="#">
-            <i class='bx bx-plug'></i>
-            <span class="link_name">Plugins</span>
-          </a>
-          <i class='bx bxs-chevron-down arrow'></i>
-        </div>
-        <ul class="sub-menu">
-          <li><a class="link_name" href="#">Plugins</a></li>
-          <li><a href="#">UI Face</a></li>
-          <li><a href="#">Pigments</a></li>
-          <li><a href="#">Box Icons</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">
-          <i class='bx bx-compass'></i>
-          <span class="link_name">Explore</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Explore</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">
-          <i class='bx bx-history'></i>
-          <span class="link_name">History</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">History</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">
-          <i class='bx bx-cog'></i>
-          <span class="link_name">Setting</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Setting</a></li>
-        </ul>
-      </li>
-      <li>
-        <div class="profile-details">
-          <div class="profile-content">
-            <img src="image/profile.jpg" alt="profileImg">
-          </div>
-          <div class="name-job">
-            <div class="profile_name">Prem Shahi</div>
-            <div class="job">Web Desginer</div>
-          </div>
-          <i class='bx bx-log-out'></i>
-        </div>
-      </li>
-    </ul>
-  </div>
+  </head>
 
-  <section class="home-section">
-    <div class="home-content">
-      <i class='bx bx-menu'></i>
-      <span class="title">Menu</span>
-    </div>
-
-    <div class="content-wrapper container-fluid">
-      <div class="container-fluid">
-        <h2 class="edit-header text-center list-header">Editar Producto</h2>
-        <form action="/guardar-producto" method="POST" enctype="multipart/form-data">
-        <div class="d-flex justify-content-end mt-4">
-            <button type="submit" class="btn btn-success me-3"><i class="bi bi-floppy2-fill"></i> Guardar Cambios</button>
-            <button type="submit" class="btn btn-primary me-3"><i class="bi bi-plus-circle"></i> Nuevo producto</button>
-            <a href="index.html" class="btn btn-warning"><i class="bi bi-x-lg"></i> Cancelar</a>
+  <body>
+    <div class="container mt-5">
+      <form name="form_nuevo" action="./proc_editar.php?id=<?php echo $id_producto ?> " method="post" autocomplete="off" enctype="multipart/form-data">
+        <div class="d-flex align-items-center mb-4">
+          <h1 class="fw-bold" style="font-size: 28px; color: #495057; border-bottom: 2px solid #495057;">Módulo de editar Producto</h1>
+          <div class="ms-auto">
+            <button type="submit" class="btn btn-agregar me-2"><i class="bi bi-floppy-fill"></i> Guardar</button>
+            <a href="form_listar.php" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas cancelar?')"><i class="bi bi-x-square-fill"></i> Cancelar</a>
           </div>
-          <div class="row">
-            <!-- Información básica -->
-            <div class="col-md-6">
-              <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre del Producto</label>
-                <div class="input-group">
-                  <span class="input-group-text"><i class="fas fa-tag"></i></span>
-                  <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
+        </div>
+
+        <div class="card card-custom p-4">
+          <!-- Sección Información del Producto -->
+          <div class="form-section">
+            <div class="form-section-title">Información del Producto</div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $nombre_producto ?>" placeholder="Nombre del Producto" required>
+                  <label for="nombre"><i class="bi bi-box me-2"></i>Nombre del Producto</label>
                 </div>
               </div>
-              <div class="mb-3">
-                <label for="id_marca" class="form-label">Marca</label>
-                <div class="input-group">
-                  <span class="input-group-text"><i class="fas fa-star"></i></span>
-                  <select class="form-select" id="id_marca" name="id_marca" required>
-                    <option value="" disabled selected>Selecciona Marca</option>
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="codigo_interno" value="<?php echo $codigo_barras ?>" name="codigo_interno" placeholder="Código Interno" required>
+                  <label for="codigo_interno"><i class="bi bi-barcode me-2"></i>Código Interno</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sección Detalles del Producto -->
+          <div class="form-section">
+            <div class="form-section-title">Detalles del Producto</div>
+            <div class="row g-3">
+              <div class="col-md-12">
+                <div class="form-floating">
+                  <textarea class="form-control" id="detalles" name="detalles" placeholder="Detalles del Producto" rows="4" required><?php echo $detalles_producto ?></textarea>
+                  <label for="detalles"><i class="bi bi-pencil me-2"></i>Detalles del Producto</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sección Categoría y Marca -->
+          <div class="form-section highlight">
+            <div class="form-section-title">Categoría y Marca</div>
+            <div class="row g-3">
+              <div class="col-md-4">
+                <div class="form-floating">
+                  <select class="form-control" id="id_marca" name="id_marca" required>
+                    <option value="" disabled selected>Seleccionar Marca</option>
+                    <!-- Aquí van las opciones de marcas -->
+                    <?php
+                    foreach ($marcas as $marca) {
+                      $selected = $marca['id_marca'] == $nombre_marca ? 'selected' : '';
+                      echo "<option value='" . $marca['id_marca'] . "' $selected>" . $marca['nombre'] . "</option>";
+                    }
+                    ?>
                   </select>
+                  <label for="id_marca"><i class="bi bi-tags me-2"></i>Marca</label>
                 </div>
               </div>
-              <div class="mb-3">
-                <label for="id_categoria" class="form-label">Categoría</label>
-                <div class="input-group">
-                  <span class="input-group-text"><i class="fas fa-th-list"></i></span>
-                  <select class="form-select" id="id_categoria" name="id_categoria" required>
-                    <option value="" disabled selected>Selecciona Categoría</option>
+              <div class="col-md-4">
+                <div class="form-floating">
+                  <select class="form-control" id="id_categoria" name="id_categoria" required>
+                    <option value="" disabled selected>Seleccionar Categoría</option>
+                    <!-- Aquí van las opciones de categorías -->
+                    <?php
+                    foreach ($categorias as $categoria) {
+                      $selected = $categoria['id_categoria'] == $nombre_categoria ? 'selected' : '';
+                      echo "<option value='" . $categoria['id_categoria'] . "' $selected>" . $categoria['nombre'] . "</option>";
+                    }
+                    ?>
                   </select>
+                  <label for="id_categoria"><i class="bi bi-list-ul me-2"></i>Categoría</label>
                 </div>
               </div>
-            </div>
-            <!-- Información adicional -->
-            <div class="col-md-6">
-              <div class="mb-3">
-                <label for="detalles" class="form-label">Detalles</label>
-                <div class="input-group">
-                  <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
-                  <textarea class="form-control" id="detalles" name="detalles" rows="3" placeholder="Detalles" required></textarea>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="id_ubicacion_fisica" class="form-label">Ubicación Física</label>
-                <div class="input-group">
-                  <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
-                  <select class="form-select" id="id_ubicacion_fisica" name="id_ubicacion_fisica" required>
-                    <option value="" disabled selected>Selecciona Ubicación Física</option>
+              <div class="col-md-4">
+                <div class="form-floating">
+                  <select class="form-control" id="id_ubicacion_fisica" name="id_ubicacion_fisica" required>
+                    <option value="" disabled selected>Seleccionar Ubicación Física</option>
+                    <!-- Aquí van las opciones de ubicaciones -->
+                    <?php
+                    foreach ($ubicaciones as $ubicacion) {
+                      $selected = $ubicacion['id_ubicacion_fisica'] == $nombre_ubicaciones_fisicas ? 'selected' : '';
+                      echo "<option value='" . $ubicacion['id_ubicacion_fisica'] . "' $selected>" . $ubicacion['nombre'] . "</option>";
+                    }
+                    ?>
+                    ?>
                   </select>
+                  <label for="id_ubicacion_fisica"><i class="bi bi-geo-alt me-2"></i>Ubicación Física</label>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="row mt-3">
-            <!-- Precios -->
-            <div class="col-md-4">
-              <label class="form-label">Precios de Venta</label>
-              <div class="input-group mb-2">
-                <span class="input-group-text">$</span>
-                <input type="number" class="form-control" id="precio_venta1" name="precio_venta1" placeholder="Precio Venta 1" step="0.01" required>
-              </div>
-              <div class="input-group mb-2">
-                <span class="input-group-text">$</span>
-                <input type="number" class="form-control" id="precio_venta2" name="precio_venta2" placeholder="Precio Venta 2" step="0.01" required>
-              </div>
-              <div class="input-group mb-2">
-                <span class="input-group-text">$</span>
-                <input type="number" class="form-control" id="precio_venta3" name="precio_venta3" placeholder="Precio Venta 3" step="0.01" required>
-              </div>
-            </div>
-
-            <!-- Códigos y existencias -->
-            <div class="col-md-4">
-              <div class="mb-3">
-                <label for="existencias_minimas" class="form-label">Existencias Mínimas</label>
-                <div class="input-group">
-                  <span class="input-group-text"><i class="fas fa-box"></i></span>
-                  <input type="number" class="form-control" id="existencias_minimas" name="existencias_minimas" required>
+          <!-- Sección Presentación y Unidad de Medida -->
+          <div class="form-section">
+            <div class="form-section-title">Presentación y Unidad de Medida</div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <select class="form-control" id="id_presentacion" name="id_presentacion" required>
+                    <option value="" disabled selected>Seleccionar Presentación</option>
+                    <!-- Aquí van las opciones de presentaciones -->
+                    <?php
+                    foreach ($presentaciones as $presentacion) {
+                      $selected = $presentacion['id_presentacion'] == $nombre_presentacion ? 'selected' : '';
+                      echo "<option value='" . $presentacion['id_presentacion'] . "' $selected>" . $presentacion['nombre'] . "</option>";
+                    }
+                    ?>
+                  </select>
+                  <label for="id_presentacion"><i class="bi bi-cup me-2"></i>Presentación</label>
                 </div>
               </div>
-              <div class="mb-3">
-                <label for="codigo_interno" class="form-label">Código Interno</label>
-                <div class="input-group">
-                  <span class="input-group-text"><i class="fas fa-code"></i></span>
-                  <input type="text" class="form-control" id="codigo_interno" name="codigo_interno" required>
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <select class="form-control" id="id_unidad_medida" name="id_unidad_medida" required>
+                    <option value="" disabled selected>Seleccionar Unidad de Medida</option>
+                    <!-- Aquí van las opciones de unidades de medida -->
+                    <?php
+                    foreach ($unidades as $unidad) {
+                      $selected = $unidad['id_unidad_medida'] == $nombre_unidades_medida ? 'selected' : '';
+                      echo "<option value='" . $unidad['id_unidad_medida'] . "' $selected>" . $unidad['nombre'] . "</option>";
+                    }
+                    ?>
+                  </select>
+                  <label for="id_unidad_medida"><i class="bi bi-cube me-2"></i>Unidad de Medida</label>
                 </div>
-              </div>
-              <div class="mb-3">
-                <label for="codigo_barras" class="form-label">Código de Barras</label>
-                <div class="input-group">
-                  <span class="input-group-text"><i class="fas fa-barcode"></i></span>
-                  <input type="text" class="form-control" id="codigo_barras" name="codigo_barras" required>
-                </div>
-              </div>
-            </div>
-
-            <!-- Imagen y estado -->
-            <div class="col-md-4">
-              <div class="mb-3">
-                <label for="imagen" class="form-label">Imagen</label>
-                <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*" onchange="previewImage(event)">
-                <img id="preview" src="#" alt="Vista previa" style="display: none;">
-              </div>
-              <div class="form-check mt-3">
-                <input class="form-check-input" type="checkbox" id="activo" name="activo">
-                <label class="form-check-label" for="activo">Activo</label>
               </div>
             </div>
           </div>
-        </form>
-      </div>
-    </div>
-    </div>
-  </section>
-  <script src="../../assets/js/movimiento_menu.js"></script>
-  <script>
-    function previewImage(event) {
-      const preview = document.getElementById('preview');
-      preview.src = URL.createObjectURL(event.target.files[0]);
-      preview.style.display = 'block';
-    }
-  </script>
-</body>
 
+          <!-- Sección Precios y Existencias -->
+          <div class="form-section highlight">
+            <div class="form-section-title">Precios y Existencias</div>
+            <div class="row g-3">
+              <div class="col-md-4">
+                <div class="form-floating">
+                  <input type="number" class="form-control" id="existencias_minimas" value="<?php echo $existencias_minimas  ?>" name="existencias_minimas" placeholder="Existencias Mínimas" required>
+                  <label for="existencias_minimas"><i class="bi bi-hash me-2"></i>Existencias Mínimas</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-floating">
+                  <input type="number" class="form-control" id="precio_venta1" value="<?php echo $precio_venta1 ?>" name="precio_venta1" placeholder="Precio de Venta 1" required>
+                  <label for="precio_venta1"><i class="bi bi-currency-dollar me-2"></i>Precio de Venta 1</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-floating">
+                  <input type="number" class="form-control" id="precio_venta2" value="<?php echo $precio_venta2 ?>" name="precio_venta2" placeholder="Precio de Venta 2" required>
+                  <label for="precio_venta2"><i class="bi bi-currency-dollar me-2"></i>Precio de Venta 2</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-floating">
+                  <input type="number" class="form-control" id="precio_venta3" value="<?php echo $precio_venta3 ?>" name="precio_venta3" placeholder="Precio de Venta 3" required>
+                  <label for="precio_venta3"><i class="bi bi-currency-dollar me-2"></i>Precio de Venta 3</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sección Código de Barras y Estado -->
+          <div class="form-section">
+            <div class="form-section-title">Código de Barras e Imagen</div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="text" class="form-control" value="<?php echo $codigo_barras ?>" id="codigo_barras" name="codigo_barras" placeholder="Código de Barras" required>
+                  <label for="codigo_barras"><i class="bi bi-barcode me-2"></i>Código de Barras</label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="file" class="form-control" id="imagen" name="imagen">
+                  <label for="imagen"><i class="bi bi-image me-2"></i>Imagen del Producto</label>
+                </div>
+                <div class="mt-3">
+                  <div class="imagen_producto">
+                    <!-- Mostrar la imagen actual -->
+                    <img src="<?php echo $imagen; ?>" alt="Imagen del producto" width="100px">
+                    <!-- Campo oculto para guardar el valor de la imagen actual -->
+                    <input type="hidden" id="imagen_bd" name="imagen" value="<?php echo $imagen; ?>">
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+          <!-- Estado Activo -->
+          <div class="form-section">
+            <div class="form-check">
+              <input class="form-check-input" value="Activo" type="checkbox" id="activo" name="activo" checked>
+              <label class="form-check-label" for="activo">
+                <i class="bi bi-check-circle me-2"></i>Producto Activo
+              </label>
+            </div>
+          </div>
+
+        </div>
+    </div>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 
 </html>
