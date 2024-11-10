@@ -7,10 +7,10 @@
 <?php
 
 require_once '../../config/server_connection.php';
-$id_producto = $_REQUEST['id_producto'];
+$id_producto = $_REQUEST['id'];
 $conexion = new ServerConnection();
 
-$conexion->query = "DELETE FROM tbl_productos WHERE id_producto = '$id_producto')";
+$conexion->query = "DELETE FROM tbl_productos WHERE id_producto = '{$id_producto}'";
 
 $conexion->execute_query();
 

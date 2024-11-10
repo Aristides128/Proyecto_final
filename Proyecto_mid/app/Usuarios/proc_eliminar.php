@@ -1,7 +1,13 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<body>
+  
+</body>
+
 <?php
 require_once '../../config/server_connection.php';
 
-$id_usuario = @$_REQUEST['id_usuario'];
+$id_usuario = @$_REQUEST['id'];
 
 if ($id_usuario == ' ') {
   echo "<script>

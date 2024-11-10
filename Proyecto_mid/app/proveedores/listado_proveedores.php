@@ -32,8 +32,7 @@ $paginador->crear_paginador();
       <th scope="col">Tipo de Proveedor</th>
       <th scope="col">Direccion</th>
       <th scope="col">Telefono</th>
-      <th scope="col">Tiene percepcion</th>
-      <th scope="col">Giro</th>
+      <th scope="col">percepcion</th>
       <th scope="col" class="text-center">Acciones</th>
     </tr>
   </thead>
@@ -46,19 +45,22 @@ $paginador->crear_paginador();
         <td><?php echo $Proveedores['direccion'] ?></td>
         <td><?php echo $Proveedores['telefono'] ?></td>
         <td><?php echo $Proveedores['tiene_percepcion'] ?></td>
-        <td><?php echo $Proveedores['giro'] ?></td>
         <td class="text-right" style="text-align: right;">
-          <button class="btn btn-s btn-outline-primary btn-action"
-            data-bs-toggle="tooltip"
-            title="Ver detalles">
-            <i class="fas fa-eye"></i> Ver
-          </button>
-          <button class="btn btn-s btn-outline-success btn-action" data-bs-toggle="tooltip"
-            title="Editar este Proveedor">
-            <i class="fas fa-edit"></i> Editar
-          </button>
+          <a href="./form_detalles.php?id=<?php echo $Proveedores['id_proveedor'] ?>">
+            <button class="btn btn-s btn-outline-primary btn-action"
+              data-bs-toggle="tooltip"
+              title="Ver detalles">
+              <i class="fas fa-eye"></i> Ver
+            </button>
+          </a>
+          <a href="./form_editar.php?id=<?php echo $Proveedores['id_proveedor'] ?>">
+            <button class="btn btn-s btn-outline-success btn-action" data-bs-toggle="tooltip"
+              title="Editar este Proveedor">
+              <i class="fas fa-edit"></i> Editar
+            </button>
+          </a>
           <button class="btn btn-s btn-outline-danger btn-action" data-bs-toggle="tooltip"
-            title="Eliminar este Proveedor">
+            title="Eliminar este Proveedor" onclick="eliminar(<?php echo $Proveedores['id_proveedor'] ?>);">
             <i class="fas fa-trash-alt"></i> Eliminar
           </button>
         </td>

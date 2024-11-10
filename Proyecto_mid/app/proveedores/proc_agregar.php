@@ -1,9 +1,10 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <body>
 
 </body>
 <?php
 require_once '../../config/server_connection.php';
-
 
 date_default_timezone_set("America/El_Salvador");
 $fecha_registro = date("Y-m-d");
@@ -13,8 +14,9 @@ $tipo_proveedor = @$_REQUEST['tipo_proveedor'];
 $direccion = @$_REQUEST['direccion'];
 $telefono = @$_REQUEST['telefono'];
 $dui = @$_REQUEST['dui'];
+$nit = @$_REQUEST['nit'];
 $nrc = @$_REQUEST['nrc'];
-$giro = @$_REQUEST['giro'];
+$giro = @$_REQUEST['Giro'];
 $tiene_percepcion = @$_REQUEST['tiene_percepcion'];
 
 $campos = [
@@ -29,7 +31,7 @@ $campos = [
 ];
 
 foreach ($campos as $variables) {
-  if (empty($variables)) {
+  if ($variables === ' ') {
     echo "<script>
     Swal.fire({
     title: 'Error al registrar',
@@ -47,12 +49,13 @@ foreach ($campos as $variables) {
 
 $conexion = new ServerConnection();
 
-$conexion->query = "INSERT INTO tbl_proveedores (
+$conexion->query = ("INSERT INTO tbl_proveedores (
 nombre,
 tipo_proveedor,
 direccion,
 telefono,
 dui,
+nit,
 nrc,
 giro,
 tiene_percepcion,
@@ -64,11 +67,12 @@ fecha_registro
  '{$direccion}',
  '{$telefono}',
  '{$dui}',
+ '{$nit}',
  '{$nrc}',
  '{$giro}',
  '{$tiene_percepcion}',
  '{$fecha_registro}'
- )";
+ )");
 
 $conexion->execute_query();
 

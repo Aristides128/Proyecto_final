@@ -6,11 +6,11 @@
 <?php
 require_once '../../config/server_connection.php';
 
-$id_proveedor = @$_REQUEST['id_proveedor'];
+$id_proveedor = @$_REQUEST['id'];
 
 $conexion = new ServerConnection();
 
-$conexion->query = "DELETE tbl_proveedores WHERE id_proveedor = '{$id_proveedor}' ";
+$conexion->query = "DELETE  FROM tbl_proveedores WHERE id_proveedor = '{$id_proveedor}' ";
 
 $conexion->execute_query();
 

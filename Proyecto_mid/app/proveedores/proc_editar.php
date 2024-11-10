@@ -10,13 +10,14 @@ date_default_timezone_set("America/El_Salvador");
 $fecha_registro = date("Y-m-d");
 
 
-$id_proveedor = @$_REQUEST['id_proveedor'];
+$id_proveedor = @$_REQUEST['id'];
 $nombre = @$_REQUEST['nombre'];
 $tipo_proveedor = @$_REQUEST['tipo_proveedor'];
 $direccion = @$_REQUEST['direccion'];
 $telefono = @$_REQUEST['telefono'];
 $dui = @$_REQUEST['dui'];
 $nrc = @$_REQUEST['nrc'];
+$nit = @$_REQUEST['nit'];
 $giro = @$_REQUEST['giro'];
 $tiene_percepcion = @$_REQUEST['tiene_percepcion'];
 
@@ -25,6 +26,7 @@ $campos = [
   $tipo_proveedor,
   $direccion,
   $telefono,
+  $nit,
   $dui,
   $nrc,
   $giro,
@@ -56,6 +58,7 @@ tipo_proveedor  = '{$tipo_proveedor}',
 direccion = '{$direccion}',
 telefono = '{$telefono}',
 dui = '{$dui}',
+nit = '{$nit}',
 nrc = '{$nrc}',
 giro = '{$giro}',
 tiene_percepcion = '{$tiene_percepcion}',

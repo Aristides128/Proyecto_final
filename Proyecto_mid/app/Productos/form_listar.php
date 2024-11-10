@@ -28,165 +28,191 @@ $paginador->crear_paginador();
   <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="../../assets/css/index_productos.css">
-  <link rel="stylesheet" href="../../assets/css/estilo_agregar.css">
-  <link rel="stylesheet" href="../../assets/css/estilodetalles.css">
+  <link rel="stylesheet" href="../../assets/css/listar2.css">
+  <link rel="stylesheet" href="../../assets/css/Estilo.css">
+</head>
+<style>
+  .card {
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background-color: #fff;
+  }
+
+  .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    background-color: #f8f9fa;
+  }
+
+  .card-image-container {
+    overflow: hidden;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+  }
+
+  .card-image {
+    transition: transform 0.3s, filter 0.3s;
+  }
+
+  .card:hover .card-image {
+    transform: scale(1.1);
+    filter: brightness(1.1);
+  }
+</style>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ferretería</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/listar2.css">
+  <!-- ESTILO DEL MENU -->
+  <link rel="stylesheet" href="../../assets/css/Estilo.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- ESTILO DEL MENU -->
 </head>
 
 <body>
+  <!-- INICIO DE CONTENIDO  DEL MENU -->
   <div class="sidebar close">
     <div class="logo-details">
-      <i class="bi bi-person-circle"></i>
-      <span class="logo_name">Clienes</span>
+      <i class="bi bi-tools" style="padding-top: 15px;"></i>
+      <span class="logo_name">Ferreteria</span>
     </div>
     <ul class="nav-links">
       <li>
-        <a href="#">
-          <i class="bi bi-person-circle"></i>
-          <span class="link_name">Clientes</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Category</a></li>
-        </ul>
-      </li>
-      <li>
-        <div class="iocn-link">
+        <div class="iocn-link" style="padding-top: 15px;">
           <a href="#">
-            <i class='bx bx-collection'></i>
-            <span class="link_name">Category</span>
+            <i class="bi bi-person-circle"></i>
+            <span class="link_name">Administración</span>
           </a>
           <i class='bx bxs-chevron-down arrow'></i>
         </div>
         <ul class="sub-menu">
-          <li><a class="link_name" href="#">Category</a></li>
-          <li><a href="#">HTML & CSS</a></li>
-          <li><a href="#">JavaScript</a></li>
-          <li><a href="#">PHP & MySQL</a></li>
+          <a class="link_name" href="#">Administración</a>
+          <a href="#"><i class="bi bi-person-fill-add"> Clientes</i></a>
+          <a href="#"><i class="bi bi-people-fill"> Usuarios</i></a>
+          <a href="#"><i class="bi bi-person-bounding-box"> Proveedores</i></a>
         </ul>
       </li>
       <li>
-        <div class="iocn-link">
+        <div class="iocn-link" style="padding-top: 15px;">
           <a href="#">
-            <i class='bx bx-book-alt'></i>
-            <span class="link_name">Posts</span>
+            <i class="bi bi-hammer"></i>
+            <span class="link_name">Productos</span>
           </a>
           <i class='bx bxs-chevron-down arrow'></i>
         </div>
         <ul class="sub-menu">
-          <li><a class="link_name" href="#">Posts</a></li>
-          <li><a href="#">Web Design</a></li>
-          <li><a href="#">Login Form</a></li>
-          <li><a href="#">Card Design</a></li>
+          <a class="link_name" href="#">Productos</i></a>
+          <a href="#"><i class="bi bi-grid-fill"> Categorias</i></a>
+          <a href="#"><i class="bi bi-tags-fill"> Marca</i></a>
+          <a href="#"><i class="bi bi-inboxes-fill"> Presentaciones</i></a>
+          <a href="#"><i class="bi bi-box-seam-fill"> Unidades de Medida</i></a>
+          <a href="#"><i class="bi bi-inbox-fill"> Ubicaciones Fisicas</i></a>
         </ul>
       </li>
-      <li>
+      <li style="padding-top: 15px;">
         <a href="#">
-          <i class='bx bx-pie-chart-alt-2'></i>
-          <span class="link_name">Analytics</span>
+          <i class="bi bi-cart-check"></i>
+          <span class="link_name">Compras</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Analytics</a></li>
+          <li><a class="link_name" href="#">Compras</a></li>
         </ul>
       </li>
-      <li>
+      <li style="padding-top: 15px;">
         <a href="#">
-          <i class='bx bx-line-chart'></i>
-          <span class="link_name">Chart</span>
+          <i class="bi bi-cash-coin"></i>
+          <span class="link_name">Ventas</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Chart</a></li>
+          <li><a class="link_name" href="#">Ventas</a></li>
         </ul>
       </li>
-      <li>
-        <div class="iocn-link">
-          <a href="#">
-            <i class='bx bx-plug'></i>
-            <span class="link_name">Plugins</span>
-          </a>
-          <i class='bx bxs-chevron-down arrow'></i>
-        </div>
-        <ul class="sub-menu">
-          <li><a class="link_name" href="#">Plugins</a></li>
-          <li><a href="#">UI Face</a></li>
-          <li><a href="#">Pigments</a></li>
-          <li><a href="#">Box Icons</a></li>
-        </ul>
-      </li>
-      <li>
+      <li style="padding-top: 15px;">
         <a href="#">
-          <i class='bx bx-compass'></i>
-          <span class="link_name">Explore</span>
+          <i class="bi bi-folder-fill"></i>
+          <span class="link_name">Documentos Fiscales</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Explore</a></li>
+          <li><a class="link_name" href="#">Documentos Fiscales</a></li>
         </ul>
       </li>
-      <li>
+      <li style="padding-top: 15px;">
         <a href="#">
-          <i class='bx bx-history'></i>
-          <span class="link_name">History</span>
+          <i class="bi bi-truck"></i>
+          <span class="link_name">Servicios</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">History</a></li>
+          <li><a class="link_name" href="#">Servicios</a></li>
         </ul>
       </li>
-      <li>
+      <li style="padding-top: 15px;">
         <a href="#">
-          <i class='bx bx-cog'></i>
-          <span class="link_name">Setting</span>
+          <i class="bi bi-gear-fill"></i>
+          <span class="link_name">Configuración</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Setting</a></li>
+          <li><a class="link_name" href="#">Configuración</a></li>
         </ul>
       </li>
       <li>
         <div class="profile-details">
           <div class="profile-content">
-            <img src="image/profile.jpg" alt="profileImg">
+            <img src="../../assets/images/Usuario.png" alt="profileImg">
           </div>
-          <div class="name-job">
-            <div class="profile_name">Prem Shahi</div>
-            <div class="job">Web Desginer</div>
-          </div>
-          <i class='bx bx-log-out'></i>
         </div>
       </li>
     </ul>
   </div>
+  <!-- FIN DE CONTENIDO  DEL MENU -->
 
   <section class="home-section">
-    <div class="home-content">
-      <i class='bx bx-menu'></i>
-      <span class="title">Menu</span>
-    </div>
+    <div class="container mt-5">
+      <h2 class="list-header">Listado de Productos</h2>
 
-    <!-- Adaptación de contenido al content-wrapper -->
-    <div class="content-wrapper container-fluid">
-      <div class=" container-fluid">
-        <h2 class="text-center list-header">Módulo de Listado de Elementos</h2>
-
-        <!-- Barra de búsqueda -->
+      <!-- Barra de búsqueda -->
+      <form action="" method="get" autocomplete="off">
         <div class="input-group mb-4">
-          <input type="text" class="form-control" placeholder="Ingrese un producto a buscar" aria-label="Buscar elementos" aria-describedby="button-buscar"name="buscar" id="buscar" onkeyup="generar_datagrid();">
-          <button class="btn btn-primary" type="button" ><i class="bi bi-search"></i> Buscar</button>
-          <button class="btn btn-warning" type="button" id="button-buscar"><i class="bi bi-x-circle"></i> Limpiar</button>
+          <input type="text" class="form-control" placeholder="Ingrese una producto a buscar" name="buscar" id="buscar" onkeyup="generar_datagrid();"
+            aria-label="Buscar productos" aria-describedby="button-buscar" value="<?php echo @$_GET['buscar'] ?>">
+          <button class="btn btn-primary" type="submit" id="button-buscar"><i class="fas fa-search"></i>
+            Buscar</button>
+          <button class="btn btn-secondary" style="color: white;" type="button" id="button-buscar"><i
+              class="bi bi-x-circle"></i> Limpiar</button>
         </div>
-        <div class="container-fluid mt-4" id="div_datagrid">
-        </div>
+      </form>
+
+      <!-- Botón de agregar Productos -->
+      <div class="mb-4 text-end">
+        <a href="./form_nuevo_producto.php">
+        <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalAgregarCategoria"><i
+            class="fas fa-plus-circle"></i> Agregar Producto</button></a>
+      </div>
+
+      <!-- Tabla de Productos -->
+      <div class="table-container" id="div_datagrid">
       </div>
     </div>
-  </section>
-  <script src="../../assets/js/movimiento_menu.js"></script>
-  <!-- Bootstrap JS (Opcional) -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-  <script>
-    // Inicializar tooltips
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-  </script>
+
+ 
+    <!-- Bootstrap JS (Opcional) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+    <script>
+      // Inicializar tooltips
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    </script>
 </body>
 
 </html>
@@ -218,5 +244,25 @@ $paginador->crear_paginador();
   function limpiarBusqueda() {
     document.getElementById("buscar").value = ''; // Limpiar el campo de búsqueda
     generar_datagrid(); // Volver a cargar todos las Productos
+  }
+</script>
+<script>
+  function eliminar(id_producto) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¡No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminarlo!',
+      timer: 5000,
+      focusCancel: true,
+      CancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = `./proc_eliminar.php?id=${encodeURIComponent(id_producto)}`;;
+      }
+    });
   }
 </script>

@@ -6,7 +6,7 @@
 <?php
 require_once '../../config/server_connection.php';
 
-$id_servicio = @$_REQUEST['id_servicio'];
+$id_servicio = @$_REQUEST['id'];
 $nombre = @$_REQUEST['nombre'];
 $precio_venta1 = @$_REQUEST['precio_venta1'];
 $precio_venta2 = @$_REQUEST['precio_venta2'];
@@ -36,7 +36,7 @@ nombre = '{$nombre}',
 precio_venta1 = '{$precio_venta1}',
 precio_venta2 = '{$precio_venta2}',
 precio_venta3 = '{$precio_venta3}'
-WHERE id_servicios = '{$id_servicio}'
+WHERE id_servicio = '{$id_servicio}'
 ";
 
 $conexion->execute_query();

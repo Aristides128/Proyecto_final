@@ -7,7 +7,7 @@
 require_once '../../config/server_connection.php';
 
 
-$id_servicio = @$_REQUEST['id_servicio'];
+$id_servicio = @$_REQUEST['id'];
 
 
 if ($id_servicio == ' ') {
